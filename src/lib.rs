@@ -217,6 +217,20 @@ impl fmt::Debug for ClientInner {
     }
 }
 
+impl ClientInner {
+    pub fn try_release(&self) {
+        let top_description = &self.topology.description;
+        let mut top = top_description.write().unwrap();
+        top.servers.clear();
+    }
+}
+
+impl Drop for ClientInner {
+    fn drop(&mut self) {
+//        println!("drop ClientInner");
+    }
+}
+
 /// Configuration options for a client.
 #[derive(Default)]
 pub struct ClientOptions {
